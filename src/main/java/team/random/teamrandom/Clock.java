@@ -181,3 +181,4 @@ public class Clock extends Group {
         return percent / 100 * clockRadius;
     }
 }
+ "note"
