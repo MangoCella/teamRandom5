@@ -24,6 +24,7 @@ public class NewClock extends Application {
     private Line minuteHand;
     private Line secondHand;
     private Label timeLabel;
+    private Object object;
 
 
     public static void main(String[] args) {
@@ -58,7 +59,8 @@ public class NewClock extends Application {
             pane.getChildren().add(label);
         }
 
-        // Create clock hands
+        // Create clock hands from paths (with rounded edges)
+        // Minute hand
         Path hourHand = new Path();
         hourHand.setStroke(Color.CHOCOLATE);
         hourHand.setStrokeWidth(8);
@@ -76,8 +78,44 @@ public class NewClock extends Application {
         hourHand.getElements().addAll(start, line1, arc1, line2, arc2);
         pane.getChildren().add(hourHand);
 
+        // Minute hand
+        Path minuteHand = new Path();
+        minuteHand.setStroke(Color.BLUE);
+        minuteHand.setStrokeWidth(6);
+
+        double minuteHandLength = clockRadius * 0.7;
+        double minuteHandWidth = 6;
+
+        if (object != null) {
+            // perform operation on object
+        MoveTo mStart = new MoveTo(centerX - minuteHandWidth/2, centerY);
+        LineTo mLine1 = new LineTo(centerX - minuteHandWidth/2, centerY - minuteHandLength + minuteHandWidth/2);
+        ArcTo mArc1 = new ArcTo(minuteHandWidth/2, minuteHandWidth/2, 0, centerX + minuteHandWidth/2, centerY - minuteHandLength + minuteHandWidth/2, false, true);
+        LineTo mLine2 = new LineTo(centerX + minuteHandWidth/2, centerY);
+        ArcTo mArc2 = new ArcTo(minuteHandWidth/2, minuteHandWidth/2, 0, centerX - minuteHandWidth/2, centerY, false, true);
+
+        minuteHand.getElements().addAll(mStart, mLine1, mArc1, mLine2, mArc2);
+        pane.getChildren().add(minuteHand);
+        }
+        // Second hand
+        Path secondHand = new Path();
+        secondHand.setStroke(Color.RED);
+        secondHand.setStrokeWidth(4);
+
+        double secondHandLength = clockRadius * 0.8;
+        double secondHandWidth = 4;
+
+        MoveTo sStart = new MoveTo(centerX - secondHandWidth/2, centerY);
+        LineTo sLine1 = new LineTo(centerX - secondHandWidth/2, centerY - secondHandLength + secondHandWidth/2);
+        ArcTo sArc1 = new ArcTo(secondHandWidth/2, secondHandWidth/2, 0, centerX + secondHandWidth/2, centerY - secondHandLength + secondHandWidth/2, false, true);
+        LineTo sLine2 = new LineTo(centerX + secondHandWidth/2, centerY);
+        ArcTo sArc2 = new ArcTo(secondHandWidth/2, secondHandWidth/2, 0, centerX - secondHandWidth/2, centerY, false, true);
+
+        secondHand.getElements().addAll(sStart, sLine1, sArc1, sLine2, sArc2);
+        pane.getChildren().add(secondHand);
 
         /*
+        // Create clock hands from lines
         MoveTo start = new MoveTo(centerX, centerY);
         LineTo line1 = new LineTo(centerX, centerY - handLength + handWidth/2);
         ArcTo arc1 = new ArcTo(handWidth/2, handWidth/2, 0, centerX + handWidth/2, centerY - handLength + handWidth/2, false, true);
