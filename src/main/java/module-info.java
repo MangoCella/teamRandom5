@@ -1,8 +1,8 @@
-module team.random.teamrandom {
+module team.random5 {
     requires javafx.controls;
     requires javafx.fxml;
 
 
-    opens team.random.teamrandom to javafx.fxml;
-    exports team.random.teamrandom;
+    opens team.random5 to javafx.fxml;
+    exports team.random5;
 }

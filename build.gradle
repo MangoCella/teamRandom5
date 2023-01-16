@@ -5,7 +5,7 @@ plugins {
     id 'org.beryx.jlink' version '2.25.0'
 }
 
-group 'team.random'
+group 'team.random5'
 version '1.0-SNAPSHOT'
 
 repositories {
@@ -24,8 +24,8 @@ tasks.withType(JavaCompile) {
 }
 
 application {
-    mainModule = 'team.random.teamrandom'
-    mainClass = 'team.random.teamrandom.HelloApplication'
+    mainModule = 'team.random5'
+    mainClass = 'team.random5.HelloApplication'
 }
 
 javafx {

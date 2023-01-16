@@ -1,4 +1,5 @@
-package team.random.teamrandom;
+package team.random5;
+
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -12,8 +13,6 @@ import java.text.SimpleDateFormat;
 import java.util.GregorianCalendar;
 import java.util.Calendar;
 
-import javafx.application.Application;
-import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -22,25 +21,24 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
-import javafx.stage.Stage;
 import javafx.scene.transform.Rotate;
 
-public class Analog_clock extends Application {
+public class AnalogClock extends Application {
     @Override
-    public void start(Stage primaryStage) throws Exception {
+    public void start(Stage primaryStage) {
         Pane pane_object = new Pane();
 
         EventHandler<ActionEvent> eventHandler = e -> {
             SimpleDateFormat simple_date_formater = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
             Calendar cal = new GregorianCalendar();
-            int h = cal.get(Calendar.HOUR_OF_DAY);
-            int m = cal.get(Calendar.MINUTE);
-            int s = cal.get(Calendar.SECOND);
-            if (h > 12) {
-                h = h - 12;
+            int hour = cal.get(Calendar.HOUR_OF_DAY);
+            int min = cal.get(Calendar.MINUTE);
+            int sec = cal.get(Calendar.SECOND);
+            if (hour > 12) {
+                hour = hour - 12;
             }
-            double arc_2 = 30 * h;
-            double arc_3 = 6 * m;
+            double arc_2 = 30 * hour;
+            double arc_3 = 6 * min;
             Circle circle_object = new Circle();
             circle_object.centerXProperty().bind(pane_object.widthProperty().divide(2));
             circle_object.centerYProperty().bind(pane_object.heightProperty().divide(2));
@@ -86,8 +84,8 @@ public class Analog_clock extends Application {
             r2.setPivotX(250);
             r2.setPivotY(250);
             second_line.getTransforms().add(r2);
-            double x_sec = 250 + (100 * 0.8) * Math.sin(s * (2 * Math.PI / 60));
-            double y_sec = 250 - (100 * 0.8) * Math.cos(s * (2 * Math.PI / 60));
+            double x_sec = 250 + (100 * 0.8) * Math.sin(sec * (2 * Math.PI / 60));
+            double y_sec = 250 - (100 * 0.8) * Math.cos(sec * (2 * Math.PI / 60));
             Line l4 = new Line(250, 250, x_sec, y_sec);
             pane_object.getChildren().add(second_line);
             pane_object.getChildren().clear();
@@ -97,7 +95,7 @@ public class Analog_clock extends Application {
         time_animation.setCycleCount(Timeline.INDEFINITE);
         time_animation.play();
         Scene scene_obj = new Scene(pane_object, 500, 500);
-        primaryStage.setTitle("Analog Clock");
+        primaryStage.setTitle("Analog Clock 1");
         primaryStage.setScene(scene_obj);
         primaryStage.show();
     }

@@ -1,4 +1,4 @@
-package team.random.teamrandom;
+package team.random5;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
