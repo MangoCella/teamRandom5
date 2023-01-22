@@ -58,6 +58,13 @@ public class NewClock extends Application {
             double angle = i * 30;
             double x = (clockCircle.getCenterX() + clockCircle.getRadius() * Math.sin(Math.toRadians(angle))) - 3;
             double y = (clockCircle.getCenterY() - clockCircle.getRadius() * Math.cos(Math.toRadians(angle))) - 4;
+            /**
+             This line of code creates a new variable named "tickLabel" of type String and assigns it the value of an expression.
+             The expression is using the ternary operator ? : which is a shorthand way of writing an if-else statement.
+             The expression is checking if the value of i is equal to 0,if that's true it assigns the value 12 to the tickLabel otherwise it assigns the value of i to the tickLabel.
+             The String.valueOf() method is used to convert the value of the expression to a string.
+             This line is creating a string representation of the integer i, with a special case for i = 0, in that case the string "12" will be assigned to the tickLabel variable.
+             */
             String tickLabel = String.valueOf(i == 0 ? 12 : i);
             Label label = new Label(tickLabel);
             label.setTextFill(Color.WHITE);
@@ -126,7 +133,7 @@ public class NewClock extends Application {
         double y = clockCircle.getCenterY() * 0.9;
         digitimeLabel.setLayoutX(x - digitimeLabel.getWidth() / 2);
         digitimeLabel.setLayoutY((y + clockRadius * 0.7) + 130);
-        digitimeLabel.setFont(Font.font("Helvetica", FontWeight.EXTRA_BOLD, 15));
+        digitimeLabel.setFont(Font.font("Helvetica", FontWeight.BLACK, 15));
         digitimeLabel.setTextFill(Color.BLACK);
 
         pane.getChildren().add(digitimeLabel);
