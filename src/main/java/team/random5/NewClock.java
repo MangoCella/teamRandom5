@@ -3,6 +3,7 @@ package team.random5;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.layout.HBox;
 import javafx.scene.transform.Rotate;
 import javafx.stage.Stage;
 import javafx.scene.shape.*;
@@ -13,22 +14,16 @@ import javafx.scene.paint.Color;
 import java.util.Calendar;
 
 public class NewClock extends Application {
-    private Path hourHand = new Path();
-    private Path minuteHand = new Path();
-    private Path secondHand = new Path();
-    private Label timeLabel = new Label();
+        private Line hourHand;
+        private Line minuteHand;
+        private Line secondHand;
+        double clockRadius;
+        double centerX;
+        double centerY;
 
-    private Circle clockCircle = new Circle();
-    private double clockRadius = clockCircle.getRadius();
-    private double centerX = clockCircle.getCenterX();
-    private double centerY = clockCircle.getCenterY();
+        private Label timeLabel;
 
-    // Create rotation transforms for clock hands
-    Rotate hourRotation = new Rotate(0, centerX, centerY);
 
-    Rotate minuteRotation = new Rotate(0, centerX, centerY);
-
-    Rotate secondRotation = new Rotate(0, centerX, centerY);
 
     @Override
     public void start(Stage primaryStage) {
@@ -38,9 +33,9 @@ public class NewClock extends Application {
         primaryStage.setScene(scene);
         primaryStage.show();
 
+        Circle clockCircle = new Circle();
         clockCircle.centerXProperty().bind(pane.widthProperty().divide(2));
         clockCircle.centerYProperty().bind(pane.heightProperty().divide(2));
-
         clockCircle.setStroke(Color.CHOCOLATE);
         clockCircle.setFill(Color.DARKMAGENTA);
         pane.getChildren().add(clockCircle);
@@ -57,13 +52,20 @@ public class NewClock extends Application {
             pane.getChildren().add(label);
         }
 
+
+        Circle clockNub = new Circle();
+        clockNub.centerXProperty().bind(pane.widthProperty().divide(2));
+        clockNub.centerYProperty().bind(pane.heightProperty().divide(2));
+        clockNub.setRadius(10);
+        clockNub.setFill(Color.DIMGREY);
+        pane.getChildren().add(clockNub);
+
         // Hands with rounded edges
         // Hour hand
         hourHand.setStroke(Color.CHOCOLATE);
         hourHand.setStrokeWidth(8);
-
-        double handLength = clockRadius * 0.5;
-        double handWidth = 8;
+        double handLength = clockRadius * 0.6;
+        double handWidth = 10;
 
         MoveTo start = new MoveTo(centerX, centerY);
         LineTo line1 = new LineTo(centerX, centerY - handLength + handWidth / 2);
@@ -71,15 +73,13 @@ public class NewClock extends Application {
         LineTo line2 = new LineTo(centerX + handWidth / 2, centerY);
         ArcTo arc2 = new ArcTo(handWidth / 2, handWidth / 2, 0, centerX - handWidth / 2, centerY, false, true);
 
-        hourHand.getElements().addAll(start, line1, arc1, line2, arc2);
         pane.getChildren().add(hourHand);
 
         // Minute hand
         minuteHand.setStroke(Color.BLUE);
         minuteHand.setStrokeWidth(6);
-
-        double minuteHandLength = clockRadius * 0.7;
-        double minuteHandWidth = 6;
+        double minuteHandLength = clockRadius * 0.9;
+        double minuteHandWidth = 10;
 
         MoveTo mStart = new MoveTo(centerX, centerY);
         LineTo mLine1 = new LineTo(centerX, centerY - minuteHandLength + minuteHandWidth / 2);
@@ -87,22 +87,16 @@ public class NewClock extends Application {
         LineTo mLine2 = new LineTo(centerX + minuteHandWidth / 2, centerY);
         ArcTo mArc2 = new ArcTo(minuteHandWidth / 2, minuteHandWidth / 2, 0, centerX - minuteHandWidth / 2, centerY, false, true);
 
-        minuteHand.getElements().addAll(mStart, mLine1, mArc1, mLine2, mArc2);
-        pane.getChildren().add(minuteHand);
-
-        // Second hand
-        secondHand.setStroke(Color.RED);
-        secondHand.setStrokeWidth(4);
-
+        secondHand.setStroke(Color.DARKRED);
+        secondHand.setStrokeWidth(6);
         double secondHandLength = clockRadius * 0.9;
-        double secondHandWidth = 4;
+        double secondHandWidth = 3;
 
         MoveTo sStart = new MoveTo(centerX, centerY);
         LineTo sLine1 = new LineTo(centerX, centerY - secondHandLength + secondHandWidth / 2);
         ArcTo sArc1 = new ArcTo(secondHandWidth / 2, secondHandWidth / 2, 0, centerX + secondHandWidth / 2, centerY - secondHandLength + secondHandWidth / 2, false, true);
         LineTo sLine2 = new LineTo(centerX + secondHandWidth / 2, centerY);
         ArcTo sArc2 = new ArcTo(secondHandWidth / 2, secondHandWidth / 2, 0, centerX - secondHandWidth / 2, centerY, false, true);
-        secondHand.getElements().addAll(sStart, sLine1, sArc1, sLine2, sArc2);
         pane.getChildren().add(secondHand);
 
 
@@ -133,13 +127,10 @@ public class NewClock extends Application {
         double minuteAngle = (minute + second / 60.0) * 6;
         double secondAngle = second * 6;
 
-        hourHand.getTransforms().add(hourRotation);
-        minuteHand.getTransforms().add(minuteRotation);
-        secondHand.getTransforms().add(secondRotation);
+        ((Rotate) hourHand.getTransforms().get(0)).setAngle(hourAngle);
+        ((Rotate) minuteHand.getTransforms().get(0)).setAngle(minuteAngle);
+        ((Rotate) secondHand.getTransforms().get(0)).setAngle(secondAngle);
 
-        hourRotation.setAngle(hourAngle);
-        minuteRotation.setAngle(minuteAngle);
-        secondRotation.setAngle(secondAngle);
     }
 
     public static void main(String[] args) {
