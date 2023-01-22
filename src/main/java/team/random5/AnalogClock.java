@@ -27,6 +27,10 @@ public class AnalogClock extends Application {
     @Override
     public void start(Stage primaryStage) {
         Pane pane_object = new Pane();
+        Scene scene_obj = new Scene(pane_object, 500, 500);
+        primaryStage.setTitle("Analog Clock 1");
+        primaryStage.setScene(scene_obj);
+        primaryStage.show();
 
         EventHandler<ActionEvent> eventHandler = e -> {
             SimpleDateFormat simple_date_formater = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
@@ -94,10 +98,7 @@ public class AnalogClock extends Application {
         Timeline time_animation = new Timeline(new KeyFrame(Duration.millis(1000), eventHandler));
         time_animation.setCycleCount(Timeline.INDEFINITE);
         time_animation.play();
-        Scene scene_obj = new Scene(pane_object, 500, 500);
-        primaryStage.setTitle("Analog Clock 1");
-        primaryStage.setScene(scene_obj);
-        primaryStage.show();
+
     }
 
     public static void main(String[] args) {
