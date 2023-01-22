@@ -14,11 +14,14 @@ import javafx.scene.paint.Color;
 
 import java.util.Calendar;
 
+/** The Application class is the base class for JavaFX applications and provides a framework for the lifecycle
+ * of a JavaFX application. By extending this class, the "NewClock" class inherits all the properties and
+ * methods of the Application class and can also add or override them. */
 public class NewClock extends Application {
     private Line hourHand;
     private Line minuteHand;
     private Line secondHand;
-    double clockRadius = 110; // added default value for clock radius
+    double clockRadius = 111; // added default value for clock radius
     double centerX;
     double centerY;
 
@@ -28,24 +31,34 @@ public class NewClock extends Application {
     @Override
     public void start(Stage primaryStage) {
         //JavaFX Setup
+        /** This empty 500x500 pixel window with the title "Random" is created using the Pane container
+         * A Pane is a container for holding other UI elements in a JavaFX application.
+         * The scene is assigned to the primaryStage and shown.*/
+        // Empty pane object
         Pane pane = new Pane();
+        /** A Scene is the container for all content in a JavaFX application.
+         * It is created by passing in the root node (in this case, the pane) and the width and height of the scene.*/
         Scene scene = new Scene(pane, 500, 500);
+        //The primaryStage is a window in the JavaFX application
         primaryStage.setTitle("Random");
+        //This line sets the scene on the primary stage, so that it will be displayed when the stage is shown.
         primaryStage.setScene(scene);
+        //This line is used to show the primary stage and make it visible to the user.
         primaryStage.show();
-
 
         // Big Circle as Base
         Circle clockCircle = new Circle();
+        //binds the centerX property of the clockCircle object to half of the width of the pane
         clockCircle.centerXProperty().bind(pane.widthProperty().divide(2));
+        //binds the centerY property of the clockCircle object to half of the height of the pane
         clockCircle.centerYProperty().bind(pane.heightProperty().divide(2));
         clockCircle.setRadius(clockRadius); // added radius to the clockCircle
         clockCircle.setFill(Color.GOLD);
-        centerX = clockCircle.getCenterX();
+        centerX = clockCircle.getCenterX()-3;
         centerY = clockCircle.getCenterY();
         pane.getChildren().add(clockCircle);
 
-        // Big Circle
+        // Big Circle Visual
         Circle circle = new Circle();
         circle.setCenterX(centerX + 4);
         circle.setCenterY(centerY + 5);
@@ -59,11 +72,10 @@ public class NewClock extends Application {
             double x = (clockCircle.getCenterX() + clockCircle.getRadius() * Math.sin(Math.toRadians(angle))) - 3;
             double y = (clockCircle.getCenterY() - clockCircle.getRadius() * Math.cos(Math.toRadians(angle))) - 4;
             /**
-             This line of code creates a new variable named "tickLabel" of type String and assigns it the value of an expression.
-             The expression is using the ternary operator ? : which is a shorthand way of writing an if-else statement.
-             The expression is checking if the value of i is equal to 0,if that's true it assigns the value 12 to the tickLabel otherwise it assigns the value of i to the tickLabel.
+             The ternary operator ? :  is a shorthand way of writing an if-else statement.
+             The expression is checking if the value of i is equal to 0,if that's true
+             it assigns the value 12 to the tickLabel otherwise it assigns the value of i to the tickLabel.
              The String.valueOf() method is used to convert the value of the expression to a string.
-             This line is creating a string representation of the integer i, with a special case for i = 0, in that case the string "12" will be assigned to the tickLabel variable.
              */
             String tickLabel = String.valueOf(i == 0 ? 12 : i);
             Label label = new Label(tickLabel);
@@ -125,7 +137,6 @@ public class NewClock extends Application {
         clockNub.setRadius(8);
         clockNub.setFill(Color.GOLDENROD);
         pane.getChildren().add(clockNub);
-
 
         // Create a label to display the current time in digits
         digitimeLabel = new Label();
