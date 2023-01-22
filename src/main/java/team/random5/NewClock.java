@@ -3,6 +3,8 @@ package team.random5;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.scene.transform.Rotate;
 import javafx.stage.Stage;
 import javafx.scene.shape.*;
@@ -38,28 +40,29 @@ public class NewClock extends Application {
         clockCircle.centerXProperty().bind(pane.widthProperty().divide(2));
         clockCircle.centerYProperty().bind(pane.heightProperty().divide(2));
         clockCircle.setRadius(clockRadius); // added radius to the clockCircle
-        clockCircle.setFill(Color.TRANSPARENT);
-        pane.getChildren().add(clockCircle);
+        clockCircle.setFill(Color.GOLD);
         centerX = clockCircle.getCenterX();
         centerY = clockCircle.getCenterY();
-
+        pane.getChildren().add(clockCircle);
 
         // Big Circle
         Circle circle = new Circle();
-        circle.setCenterX(centerX+5);
-        circle.setCenterY(centerY+9);
-        circle.setRadius(120);
-        circle.setFill(Color.DARKGRAY);
+        circle.setCenterX(centerX + 4);
+        circle.setCenterY(centerY + 5);
+        circle.setRadius(127);
+        circle.setFill(Color.BLACK);
         pane.getChildren().add(circle);
 
         // Draw clock ticks
         for (int i = 0; i < 12; i++) {
             double angle = i * 30;
-            double x = clockCircle.getCenterX() + clockCircle.getRadius() * Math.sin(Math.toRadians(angle));
-            double y = clockCircle.getCenterY() - clockCircle.getRadius() * Math.cos(Math.toRadians(angle));
+            double x = (clockCircle.getCenterX() + clockCircle.getRadius() * Math.sin(Math.toRadians(angle))) - 3;
+            double y = (clockCircle.getCenterY() - clockCircle.getRadius() * Math.cos(Math.toRadians(angle))) - 4;
             String tickLabel = String.valueOf(i == 0 ? 12 : i);
             Label label = new Label(tickLabel);
+            label.setTextFill(Color.WHITE);
             //label.setFont(Font.font("Helvetica"));
+            label.setFont(Font.font("Helvetica", FontWeight.BLACK, 15));
             label.setLayoutX(x - label.getWidth() / 2);
             label.setLayoutY(y - label.getHeight() / 2);
             pane.getChildren().add(label);
@@ -69,7 +72,7 @@ public class NewClock extends Application {
         // Hours hand
         hourHand = new Line();
         hourHand.setStroke(Color.WHITE);
-        hourHand.setStrokeWidth(8);
+        hourHand.setStrokeWidth(10);
         hourHand.setStrokeLineCap(StrokeLineCap.ROUND);
         hourHand.setStartX(centerX);
         hourHand.setStartY(centerY);
@@ -80,12 +83,12 @@ public class NewClock extends Application {
         // Minute hand
         minuteHand = new Line();
         minuteHand.setStroke(Color.WHITE);
-        minuteHand.setStrokeWidth(6);
+        minuteHand.setStrokeWidth(10);
         minuteHand.setStrokeLineCap(StrokeLineCap.ROUND);
         minuteHand.setStartX(centerX);
         minuteHand.setStartY(centerY);
         minuteHand.setEndX(centerX);
-        minuteHand.setEndY(centerY - clockRadius * 0.8);
+        minuteHand.setEndY(centerY - clockRadius * 0.7);
         pane.getChildren().add(minuteHand);
 
         // Second hand
@@ -96,7 +99,7 @@ public class NewClock extends Application {
         secondHand.setStartX(centerX);
         secondHand.setStartY(centerY);
         secondHand.setEndX(centerX);
-        secondHand.setEndY(centerY - clockRadius * 0.9);
+        secondHand.setEndY(centerY - clockRadius * 0.8);
         pane.getChildren().add(secondHand);
 
 
@@ -112,8 +115,8 @@ public class NewClock extends Application {
         Circle clockNub = new Circle();
         clockNub.setCenterX(centerX);
         clockNub.setCenterY(centerY);
-        clockNub.setRadius(9);
-        clockNub.setFill(Color.LIGHTGRAY);
+        clockNub.setRadius(8);
+        clockNub.setFill(Color.GOLDENROD);
         pane.getChildren().add(clockNub);
 
 
@@ -122,7 +125,10 @@ public class NewClock extends Application {
         double x = clockCircle.getCenterX() * 0.9;
         double y = clockCircle.getCenterY() * 0.9;
         digitimeLabel.setLayoutX(x - digitimeLabel.getWidth() / 2);
-        digitimeLabel.setLayoutY(y + clockRadius * 0.7);
+        digitimeLabel.setLayoutY((y + clockRadius * 0.7) + 130);
+        digitimeLabel.setFont(Font.font("Helvetica", FontWeight.EXTRA_BOLD, 15));
+        digitimeLabel.setTextFill(Color.BLACK);
+
         pane.getChildren().add(digitimeLabel);
 
         // Create animation timer to update clock hands and time label
