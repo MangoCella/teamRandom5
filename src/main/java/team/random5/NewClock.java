@@ -14,14 +14,16 @@ import javafx.scene.paint.Color;
 
 import java.util.Calendar;
 
-/** The Application class is the base class for JavaFX applications and provides a framework for the lifecycle
+/**
+ * The Application class is the base class for JavaFX applications and provides a framework for the lifecycle
  * of a JavaFX application. By extending this class, the "NewClock" class inherits all the properties and
- * methods of the Application class and can also add or override them. */
+ * methods of the Application class and can also add or override them.
+ */
 public class NewClock extends Application {
     private Line hourHand;
     private Line minuteHand;
     private Line secondHand;
-    double clockRadius = 111; // added default value for clock radius
+    double clockRadius = 110;
     double centerX;
     double centerY;
 
@@ -33,11 +35,13 @@ public class NewClock extends Application {
         //JavaFX Setup
         /** This empty 500x500 pixel window with the title "Random" is created using the Pane container
          * A Pane is a container for holding other UI elements in a JavaFX application.
-         * The scene is assigned to the primaryStage and shown.*/
+         * The scene is assigned to the primaryStage and shown.
+         */
         // Empty pane object
         Pane pane = new Pane();
         /** A Scene is the container for all content in a JavaFX application.
-         * It is created by passing in the root node (in this case, the pane) and the width and height of the scene.*/
+         * It is created by passing in the root node (in this case, the pane) and the width and height of the scene.
+         */
         Scene scene = new Scene(pane, 500, 500);
         //The primaryStage is a window in the JavaFX application
         primaryStage.setTitle("Random");
@@ -54,22 +58,22 @@ public class NewClock extends Application {
         clockCircle.centerYProperty().bind(pane.heightProperty().divide(2));
         clockCircle.setRadius(clockRadius); // added radius to the clockCircle
         clockCircle.setFill(Color.GOLD);
-        centerX = clockCircle.getCenterX()-3;
+        centerX = clockCircle.getCenterX() - 3;
         centerY = clockCircle.getCenterY();
         pane.getChildren().add(clockCircle);
 
-        // Big Circle Visual
+        // Big Circle
         Circle circle = new Circle();
         circle.setCenterX(centerX + 4);
         circle.setCenterY(centerY + 5);
-        circle.setRadius(127);
+        circle.setRadius(130);
         circle.setFill(Color.BLACK);
         pane.getChildren().add(circle);
 
-        // Draw clock ticks
+        // Draw clock ticks on their designated spots
         for (int i = 0; i < 12; i++) {
             double angle = i * 30;
-            double x = (clockCircle.getCenterX() + clockCircle.getRadius() * Math.sin(Math.toRadians(angle))) - 3;
+            double x = (clockCircle.getCenterX() + clockCircle.getRadius() * Math.sin(Math.toRadians(angle))) -2;
             double y = (clockCircle.getCenterY() - clockCircle.getRadius() * Math.cos(Math.toRadians(angle))) - 4;
             /**
              The ternary operator ? :  is a shorthand way of writing an if-else statement.
@@ -81,7 +85,7 @@ public class NewClock extends Application {
             Label label = new Label(tickLabel);
             label.setTextFill(Color.WHITE);
             //label.setFont(Font.font("Helvetica"));
-            label.setFont(Font.font("Helvetica", FontWeight.BLACK, 15));
+            label.setFont(Font.font("Helvetica", FontWeight.BLACK, 16));
             label.setLayoutX(x - label.getWidth() / 2);
             label.setLayoutY(y - label.getHeight() / 2);
             pane.getChildren().add(label);
@@ -96,7 +100,7 @@ public class NewClock extends Application {
         hourHand.setStartX(centerX);
         hourHand.setStartY(centerY);
         hourHand.setEndX(centerX);
-        hourHand.setEndY(centerY - clockRadius * 0.6);
+        hourHand.setEndY(centerY - clockRadius * 0.5);
         pane.getChildren().add(hourHand);
 
         // Minute hand
@@ -118,7 +122,7 @@ public class NewClock extends Application {
         secondHand.setStartX(centerX);
         secondHand.setStartY(centerY);
         secondHand.setEndX(centerX);
-        secondHand.setEndY(centerY - clockRadius * 0.8);
+        secondHand.setEndY(centerY - clockRadius * 0.9);
         pane.getChildren().add(secondHand);
 
 
@@ -144,36 +148,55 @@ public class NewClock extends Application {
         double y = clockCircle.getCenterY() * 0.9;
         digitimeLabel.setLayoutX(x - digitimeLabel.getWidth() / 2);
         digitimeLabel.setLayoutY((y + clockRadius * 0.7) + 130);
-        digitimeLabel.setFont(Font.font("Helvetica", FontWeight.BLACK, 15));
+        digitimeLabel.setFont(Font.font("Helvetica", FontWeight.BLACK, 20));
         digitimeLabel.setTextFill(Color.BLACK);
 
         pane.getChildren().add(digitimeLabel);
 
         // Create animation timer to update clock hands and time label
+        /**this line of code is creating a new AnimationTimer object that can be used to create animations
+         * in the JavaFX application by overriding the handle method and providing the logic for the animation.
+         * The AnimationTimer class is an abstract class, so it can not be instantiated directly. Instead,
+         * this code creates an anonymous inner class that extends the AnimationTimer class and overrides its
+         * abstract method handle(long now). This method will be called repeatedly by the JavaFX runtime,
+         * providing the current timestamp (in nanoseconds) as an argument.
+         */
         AnimationTimer timer = new AnimationTimer() {
+            /**The handle(long now) method takes a single argument, a long value named "now" which represents the
+             * current timestamp in nanoseconds. The timestamp is generated by the operating system's
+             * high-resolution timer, and it is passed to the handle method each time it is called.
+             */
             @Override
+
             public void handle(long now) {
+                //the actual time
                 Calendar cal = Calendar.getInstance();
                 int hour = cal.get(Calendar.HOUR_OF_DAY);
                 int minute = cal.get(Calendar.MINUTE);
                 int second = cal.get(Calendar.SECOND);
                 updateClockHands(hour, minute, second);
-                digitimeLabel.setText(String.format("%02d:%02d:%02d", hour, minute, second));
+                //digitimeLabel.setText(String.format("%02d:%02d:%02d", hour, minute, second));
             }
         };
+        /** The timer.start() method call is used to start the AnimationTimer object.
+         * Once the AnimationTimer object is started, the handle(long now) method will
+         * be called repeatedly by the JavaFX runtime
+         */
         timer.start();
 
     }
 
     private void updateClockHands(double hour, double minute, double second) {
+
+        //The Angles where the hands need to be pointing to
         double hourAngle = (hour % 12 + minute / 60.0) * 30;
         double minuteAngle = (minute + second / 60.0) * 6;
         double secondAngle = second * 6;
 
+        //Rote hands according to the angle in animation time
         ((Rotate) hourHand.getTransforms().get(0)).setAngle(hourAngle);
         ((Rotate) minuteHand.getTransforms().get(0)).setAngle(minuteAngle);
         ((Rotate) secondHand.getTransforms().get(0)).setAngle(secondAngle);
-
     }
 
     public static void main(String[] args) {
