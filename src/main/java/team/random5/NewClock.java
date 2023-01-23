@@ -5,6 +5,7 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
 import javafx.scene.transform.Rotate;
 import javafx.stage.Stage;
 import javafx.scene.shape.*;
@@ -73,8 +74,8 @@ public class NewClock extends Application {
         // Draw clock ticks on their designated spots
         for (int i = 0; i < 12; i++) {
             double angle = i * 30;
-            double x = (clockCircle.getCenterX() + clockCircle.getRadius() * Math.sin(Math.toRadians(angle))) -2;
-            double y = (clockCircle.getCenterY() - clockCircle.getRadius() * Math.cos(Math.toRadians(angle))) - 4;
+            double x = (clockCircle.getCenterX() + clockCircle.getRadius() * Math.sin(Math.toRadians(angle))) - 2;
+            double y = (clockCircle.getCenterY() - clockCircle.getRadius() * Math.cos(Math.toRadians(angle))) - 5;
             /**
              The ternary operator ? :  is a shorthand way of writing an if-else statement.
              The expression is checking if the value of i is equal to 0,if that's true
@@ -84,10 +85,14 @@ public class NewClock extends Application {
             String tickLabel = String.valueOf(i == 0 ? 12 : i);
             Label label = new Label(tickLabel);
             label.setTextFill(Color.WHITE);
-            //label.setFont(Font.font("Helvetica"));
             label.setFont(Font.font("Helvetica", FontWeight.BLACK, 16));
             label.setLayoutX(x - label.getWidth() / 2);
             label.setLayoutY(y - label.getHeight() / 2);
+            //Text text = new Text(label.getText());
+            //Path textShape = new Path();
+            //textShape.getElements().addAll(new MoveTo(text.getLayoutBounds().getMinX(), text.getLayoutBounds().getMinY()), new LineTo(text.getLayoutBounds().getMaxX(), text.getLayoutBounds().getMinY()), new LineTo(text.getLayoutBounds().getMaxX(), text.getLayoutBounds().getMaxY()), new LineTo(text.getLayoutBounds().getMinX(), text.getLayoutBounds().getMaxY()), new ClosePath());
+            //Shape intersection = Path.intersect(textShape, circle);
+            //pane.getChildren().add(intersection); // Tried to cut out digits from background
             pane.getChildren().add(label);
         }
 
@@ -134,13 +139,28 @@ public class NewClock extends Application {
         Rotate secondRotation = new Rotate(0, centerX, centerY);
         secondHand.getTransforms().add(secondRotation);
 
-        // Little Circle
-        Circle clockNub = new Circle();
-        clockNub.setCenterX(centerX);
-        clockNub.setCenterY(centerY);
-        clockNub.setRadius(8);
-        clockNub.setFill(Color.GOLDENROD);
-        pane.getChildren().add(clockNub);
+        // Little Circles
+        Circle upperclockNob = new Circle();
+        upperclockNob.setCenterX(centerX);
+        upperclockNob.setCenterY(centerY);
+        upperclockNob.setRadius(8);
+        upperclockNob.setFill(Color.TOMATO);
+        pane.getChildren().add(upperclockNob);
+
+        Circle middleclockNob = new Circle();
+        middleclockNob.setCenterX(centerX);
+        middleclockNob.setCenterY(centerY);
+        middleclockNob.setRadius(6);
+        middleclockNob.setFill(Color.GOLDENROD);
+        pane.getChildren().add(middleclockNob);
+
+        Circle lowerclockNob = new Circle();
+        lowerclockNob.setCenterX(centerX);
+        lowerclockNob.setCenterY(centerY);
+        lowerclockNob.setRadius(5);
+        lowerclockNob.setFill(Color.BLACK);
+        pane.getChildren().add(lowerclockNob);
+
 
         // Create a label to display the current time in digits
         digitimeLabel = new Label();
@@ -193,7 +213,7 @@ public class NewClock extends Application {
         double minuteAngle = (minute + second / 60.0) * 6;
         double secondAngle = second * 6;
 
-        //Rote hands according to the angle in animation time
+        //Rote hands according to the angle
         ((Rotate) hourHand.getTransforms().get(0)).setAngle(hourAngle);
         ((Rotate) minuteHand.getTransforms().get(0)).setAngle(minuteAngle);
         ((Rotate) secondHand.getTransforms().get(0)).setAngle(secondAngle);
